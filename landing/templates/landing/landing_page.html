@@ -1,0 +1,28 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="{% static 'landing/images/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'landing/css/landing_page.css' %}">
+    <title>Minium: Read and write stories</title>
+</head>
+<body>
+    <header>
+        <h1>Minium</h1>
+        <div class="navigation">
+            <a href="{% url 'register' %}" class="register">Get started</a>
+            <a href="{% url 'login' %}" class="login">Sign in</a>
+        </div>
+    </header>
+    <main>
+        <div class="introduction">
+            <h1>Human <br> stories & ideas</h1>
+            <p class="description">A place to read, write, and deepen your understanding</p>
+            <a href="{% url 'login' %}" class="start">Start reading</a>
+        </div>
+        <img src="https://miro.medium.com/v2/format:webp/4*SdjkdS98aKH76I8eD0_qjw.png" alt="image" loading="eager">
+    </main>
+    <footer></footer>
+</body>
+</html>

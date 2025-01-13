@@ -1,0 +1,150 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+.first-column {
+    width: 66%;
+    height: 100%;
+    border-right: 1px solid lightgray;
+}
+.first-column > h1 {
+    font-family: "Arial", sans-serif;
+    font-size: xx-large;
+    margin-top: 40px;
+    margin-left: 70px;
+    font-weight: normal;
+}
+.posts {
+    width: 90%;
+    height: 70%;
+    margin-left: 70px;
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    overflow-y: auto;
+}
+.card {
+    width: 48%;
+    height: 150px;
+    background-color: rgb(200, 200, 200, 0.3);
+    position: relative;
+    cursor: pointer;
+}
+.card-header {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 10px;
+    font-size: small;
+}
+.post-profile-picture-image {
+    margin-left: 10px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+.not-post-profile-picture-image {
+    margin-left: 10px;
+    width: 25px;
+    height: 25px;
+}
+.card-body {
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+}
+.card-footer {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: small;
+}
+.not-posts {
+    color: darkgray;
+    font-size: small;
+}
+.second-column {
+    width: 34%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+.first-row {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding-top: 75px;
+}
+.second-row {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+.username {
+    font-weight: bold;
+}
+.email {
+    font-weight: normal;
+    font-size: small;
+}
+.bio {
+    width: 80%;
+    font-size: small;
+    color: gray;
+    text-align: justify;
+}
+.edit-profile {
+    color: green;
+    text-decoration-line: none;
+    font-weight: bold;
+    font-size: small;
+}
+.edit-profile:hover {
+    text-decoration-line: underline;
+}
+.logout-button {
+    width: 100px;
+    height: 30px;
+    border-radius: 15px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.picture-container {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 1px solid lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.profile-picture-image {
+    width: 103px;
+    height: 103px;
+    border-radius: 50%;
+}
+.not-profile-picture-image {
+    width: 70px;
+    height: 70px;
+}

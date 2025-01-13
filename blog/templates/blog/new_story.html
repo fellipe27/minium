@@ -1,0 +1,40 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="{% static 'blog/images/favicon.ico' %}">
+    {% block styles %}
+        <link rel="stylesheet" href="{% static 'blog/css/new_story.css' %}">
+    {% endblock %}
+    <title>New story - Minium</title>
+</head>
+<body>
+    <header>
+        <div class="header-principal">
+            <a href="{% url 'home' %}">
+                <h1>Minium</h1>
+            </a>
+            <span class="draft">Draft in {{ user.username }}</span>
+        </div>
+        <a href="{% url 'profile' username=request.user.username %}" class="user">
+            {% if picture %}
+                <img src="data:image/jpeg;base64,{{ picture }}" alt="picture" class="profile-picture-publish">
+            {% else %}
+                <img src="{% static 'blog/images/user-profile.png' %}" alt="profile" class="not-profile-picture-publish">
+            {% endif %}
+        </a>
+    </header>
+    <main>
+        <form method="POST" action="{% url 'new_story' %}">
+            {% csrf_token %}
+            <label>
+                <input type="text" name="title" placeholder="Title" class="title" required>
+            </label>
+            <label>
+                <textarea name="content" placeholder="Tell your story..." class="content" required></textarea>
+            </label>
+            <button type="submit" class="publish">Publish</button>
+        </form>
+    </main>
+</body>
+</html>

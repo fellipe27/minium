@@ -1,0 +1,123 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+label {
+    color: darkgray;
+    font-size: small;
+}
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.update-header {
+    width: 100%;
+    height: 12%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.update-header > h1 {
+    font-family: "Arial", sans-serif;
+    font-size: large;
+}
+.update-form {
+    width: 50%;
+    height: 88%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.picture-container {
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 20px;
+}
+.file-upload {
+    width: 75%;
+}
+.picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 1px solid lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.profile-picture-update {
+    width: 103px;
+    height: 103px;
+    border-radius: 50%;
+}
+.not-profile-picture-update {
+    width: 70px;
+    height: 70px;
+}
+.username-update {
+    background-color: lightgrey;
+    padding-left: 8px;
+    transition: border 0.3s ease;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+}
+.username-update:focus {
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: white;
+}
+.bio-update {
+    width: 100%;
+    height: 100px;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: "Arial", serif;
+    background-color: lightgrey;
+    padding-left: 8px;
+    padding-top: 6px;
+    transition: border 0.3s ease;
+    border-radius: 4px;
+}
+.bio-update:focus {
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: white;
+}
+.buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 30px;
+}
+.cancel {
+    width: 100px;
+    height: 30px;
+    border: 1px solid green;
+    border-radius: 15px;
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    color: green;
+    justify-content: center;
+    align-items: center;
+    font-size: small;
+}
+.save {
+    width: 100px;
+    height: 30px;
+    color: white;
+    border-radius: 15px;
+    background-color: green;
+    border: none;
+    cursor: pointer;
+}

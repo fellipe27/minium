@@ -1,0 +1,42 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'blog/images/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/base.css' %}">
+    {% block styles %}{% endblock %}
+    <title>{% block title %}Minium{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <div class="header-principal">
+            <a href="{% url 'home' %}">
+                <h1>Minium</h1>
+            </a>
+            <form method="GET" action="{% url 'search' %}" class="search-form">
+                <label for="search">
+                    <img src="{% static 'blog/images/magnifying-glass.png' %}" alt="Search">
+                </label>
+                <input type="text" id="search" name="q" placeholder="Search">
+            </form>
+        </div>
+        <div class="header-menu">
+            <a href="{% url 'new_story' %}" class="write">
+                <img src="{% static 'blog/images/edit-note.png' %}" alt="write" class="write-image">
+                <span class="write-span">Write</span>
+            </a>
+            <a href="{% url 'profile' username=request.user.username %}" class="user">
+                {% if picture %}
+                    <img src="data:image/jpeg;base64,{{ picture }}" alt="picture" class="profile-picture">
+                {% else %}
+                    <img src="{% static 'blog/images/user-profile.png' %}" alt="profile" class="not-profile-picture">
+                {% endif %}
+            </a>
+        </div>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

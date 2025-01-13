@@ -1,0 +1,37 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block styles %}<link rel="stylesheet" href="{% static 'blog/css/view_post.css' %}">{% endblock %}
+    <title>
+        {% block title %}{{ post.title }} | by {{ post.author }}{% endblock %}
+    </title>
+</head>
+<body>
+    {% block content %}
+        <div class="container">
+            <header>
+                <h1>{{ post.title }}</h1>
+                <div class="author">
+                    <a href="{% url 'profile' username=post.author %}">
+                        {% if post.author_picture %}
+                            <img src="data:image/jpeg;base64,{{ post.author_picture }}" alt="user picture" class="post-profile-picture-image">
+                        {% else %}
+                            <img src="{% static 'blog/images/user-profile.png' %}" alt="picture" class="not-post-profile-picture-image">
+                        {% endif %}
+                    </a>
+                    <div class="post-author">
+                        <a href="{% url 'profile' username=post.author %}">{{ post.author }}</a>
+                        <span>{{ post.created_at }}</span>
+                    </div>
+                </div>
+            </header>
+            <div class="content">
+                <p>{{ post.content|linebreaksbr }}</p>
+            </div>
+        </div>
+    {% endblock %}
+</body>
+</html>
