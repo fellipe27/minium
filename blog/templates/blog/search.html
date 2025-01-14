@@ -1,52 +1,44 @@
 {% extends 'blog/base.html' %}
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% block styles %}<link rel="stylesheet" href="{% static 'blog/css/search.css' %}">{% endblock %}
-    <title>Minium</title>
-</head>
-<body>
-    {% block content %}
-        <div class="container">
-            <h1>Results for <span>{{ query }}</span></h1>
-            <nav>
-                <a href="{% url 'search'%}?q={{ query }}" class="{% if prefix == 'posts' %}nav-selected{%endif%}">Stories</a>
-                <a href="{% url 'search_users'%}?q={{ query }}" class="{% if prefix == 'users' %}nav-selected{%endif%}">People</a>
-            </nav>
-            <div class="results">
-                {% if prefix == 'posts' and results.posts %}
-                    {% for post in results.posts %}
-                        <p>{{ post.title }}</p>
-                    {% endfor %}
-                {% elif prefix == 'users' and results.users %}
-                    {% for user in results.users %}
-                        <a href="{% url 'profile' username=user.username %}" class="user-search">
-                            <div class="user-picture">
-                                {% if user.photo %}
-                                    <img src="data:image/jpeg;base64,{{ user.photo }}" alt="picture" class="user-photo">
-                                {% else %}
-                                    <img src="{% static 'blog/images/user-profile.png' %}" alt="profile" class="not-user-photo">
-                                {% endif %}
-                            </div>
-                            <div class="user-info">
-                                <p>{{ user.username }}</p>
-                                <span>{{ user.bio }}</span>
-                            </div>
-                            <form method="POST" class="follow-form">
-                                {% csrf_token %}
-                                <button type="submit" class="follow">Follow</button>
-                            </form>
-                        </a>
-                    {% endfor %}
-                {% else %}
-                    <p>Make sure all words are spelled correctly.</p>
-                    <p>Try different keywords.</p>
-                    <p>Try more general keywords.</p>
-                {% endif %}
-            </div>
+
+{% block styles %}<link rel="stylesheet" href="{% static 'blog/css/search.css' %}">{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1>Results for <span>{{ query }}</span></h1>
+        <nav>
+            <a href="{% url 'search'%}?q={{ query }}" class="{% if prefix == 'posts' %}nav-selected{%endif%}">Stories</a>
+            <a href="{% url 'search_users'%}?q={{ query }}" class="{% if prefix == 'users' %}nav-selected{%endif%}">People</a>
+        </nav>
+        <div class="results">
+            {% if prefix == 'posts' and results.posts %}
+                {% for post in results.posts %}
+                    <p>{{ post.title }}</p>
+                {% endfor %}
+            {% elif prefix == 'users' and results.users %}
+                {% for user in results.users %}
+                    <a href="{% url 'profile' username=user.username %}" class="user-search">
+                        <div class="user-picture">
+                            {% if user.photo %}
+                                <img src="data:image/jpeg;base64,{{ user.photo }}" alt="picture" class="user-photo">
+                            {% else %}
+                                <img src="{% static 'blog/images/user-profile.png' %}" alt="profile" class="not-user-photo">
+                            {% endif %}
+                        </div>
+                        <div class="user-info">
+                            <p>{{ user.username }}</p>
+                            <span>{{ user.bio }}</span>
+                        </div>
+                        <form method="POST" class="follow-form">
+                            {% csrf_token %}
+                            <button type="submit" class="follow">Follow</button>
+                        </form>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <p>Make sure all words are spelled correctly.</p>
+                <p>Try different keywords.</p>
+                <p>Try more general keywords.</p>
+            {% endif %}
         </div>
-    {% endblock %}
-</body>
-</html>
+    </div>
+{% endblock %}

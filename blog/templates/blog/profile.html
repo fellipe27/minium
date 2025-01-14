@@ -1,71 +1,62 @@
 {% extends 'blog/base.html' %}
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% block styles %}
-        <link rel="stylesheet" href="{% static 'blog/css/profile.css' %}">
-    {% endblock %}
-    <title>
-        {% block title %}{{ user.username }} on Minium{% endblock %}
-    </title>
-</head>
-<body>
-    {% block content %}
-        <div class="container">
-            <div class="first-column">
-                <h1>{{ user.username }}'s posts</h1>
-                <div class="posts">
-                    {% if posts %}
-                        {% for post in posts %}
-                            <a href="{% url 'view_post' username=post.author post_id=post.id %}" class="card">
-                                <div class="card-header">
-                                    {% if post.author_picture %}
-                                        <img src="data:image/jpeg;base64,{{ post.author_picture }}" alt="user picture" class="post-profile-picture-image">
-                                    {% else %}
-                                        <img src="{% static 'blog/images/user-profile.png' %}" alt="picture" class="not-post-profile-picture-image">
-                                    {% endif %}
-                                    <span>{{ post.author }}</span>
-                                </div>
-                                <div class="card-body">{{ post.title }}</div>
-                                <div class="card-footer">{{ post.created_at }}</div>
-                            </a>
-                        {% endfor %}
-                    {% else %}
-                        <span class="not-posts">No posts at the moment</span>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="second-column">
-                <div class="first-row">
-                    <div class="picture-container">
-                        {% if photo %}
-                            <img src="data:image/jpeg;base64,{{ photo }}" alt="picture" class="profile-picture-image">
-                        {% else %}
-                            <img src="{% static 'blog/images/user-profile.png' %}" alt="picture" class="not-profile-picture-image">
-                        {% endif %}
-                    </div>
-                    <span class="username">{{ user.username }}</span>
-                    <span class="email">{{ user.email }}</span>
-                    <span class="bio">
-                        {% if user.bio %}
-                            {{ user.bio|linebreaksbr }}
-                        {% else %}
-                            Without any bio yet.
-                        {% endif %}
-                    </span>
-                </div>
-                {% if request.user.username == user.username %}
-                    <div class="second-row">
-                        <a href="{% url 'update' username=request.user.username %}" class="edit-profile">Edit profile</a>
-                        <a href="{% url 'logout' %}" class="logout">
-                            <button class="logout-button">Sign out</button>
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'blog/css/profile.css' %}">
+{% endblock %}
+{% block title %}{{ user.username }} on Minium{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="first-column">
+            <h1>{{ user.username }}'s posts</h1>
+            <div class="posts">
+                {% if posts %}
+                    {% for post in posts %}
+                        <a href="{% url 'view_post' username=post.author post_id=post.id %}" class="card">
+                            <div class="card-header">
+                                {% if post.author_picture %}
+                                    <img src="data:image/jpeg;base64,{{ post.author_picture }}" alt="user picture" class="post-profile-picture-image">
+                                {% else %}
+                                    <img src="{% static 'blog/images/user-profile.png' %}" alt="picture" class="not-post-profile-picture-image">
+                                {% endif %}
+                                <span>{{ post.author }}</span>
+                            </div>
+                            <p title="{{ post.title }}" class="card-body">{{ post.title }}</p>
+                            <div class="card-footer">{{ post.created_at }}</div>
                         </a>
-                    </div>
+                    {% endfor %}
+                {% else %}
+                    <span class="not-posts">No posts at the moment</span>
                 {% endif %}
             </div>
         </div>
-    {% endblock %}
-</body>
-</html>
+        <div class="second-column">
+            <div class="first-row">
+                <div class="picture-container">
+                    {% if photo %}
+                        <img src="data:image/jpeg;base64,{{ photo }}" alt="picture" class="profile-picture-image">
+                    {% else %}
+                        <img src="{% static 'blog/images/user-profile.png' %}" alt="picture" class="not-profile-picture-image">
+                    {% endif %}
+                </div>
+                <span class="username">{{ user.username }}</span>
+                <span class="email">{{ user.email }}</span>
+                <span class="bio">
+                    {% if user.bio %}
+                        {{ user.bio|linebreaksbr }}
+                    {% else %}
+                        Without any bio yet.
+                    {% endif %}
+                </span>
+            </div>
+            {% if request.user.username == user.username %}
+                <div class="second-row">
+                    <a href="{% url 'update' username=request.user.username %}" class="edit-profile">Edit profile</a>
+                    <a href="{% url 'logout' %}" class="logout">
+                        <button class="logout-button">Sign out</button>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

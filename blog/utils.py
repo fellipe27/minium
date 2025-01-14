@@ -1,8 +1,9 @@
 from datetime import datetime
+from accounts.models import User
 import base64
 
-def convert_to_base_64(image):
-    return base64.b64encode(image).decode('utf-8')
+def convert_to_base_64(user):
+    return base64.b64encode(user.picture).decode('utf-8') if user.picture else None
 
 def convert_post_created_date(date):
     date_format = '%Y-%m-%d %H:%M:%S.%f%z'

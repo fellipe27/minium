@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from accounts.models import User
 from .models import Post
 from django.urls import reverse
-from PIL import Image
 from .utils import convert_to_base_64, convert_post_created_date
 from django.db.models import Q
 
@@ -10,20 +9,21 @@ def home(request):
     if not request.user.is_authenticated:
         return redirect('/home')
 
-    picture = convert_to_base_64(request.user.picture) if request.user.picture else None
-
-    return render(request, 'blog/home.html', { 'user': request.user, 'picture': picture })
+    return render(
+        request,
+        'blog/home.html',
+        { 'user': request.user, 'picture': convert_to_base_64(request.user) }
+    )
 
 def search(request, prefix):
     query = request.GET.get('q')
-    picture = convert_to_base_64(request.user.picture) if request.user.picture else None
     results = {
         'posts': Post.objects.filter(Q(title__icontains=query) | Q(content__icontains=query)),
         'users': [
             {
                 'username': user.username,
                 'bio': user.bio,
-                'photo': convert_to_base_64(user.picture) if user.picture else None
+                'photo': convert_to_base_64(user)
             } for user in User.objects.filter(username__icontains=query)
         ]
     }
@@ -31,7 +31,7 @@ def search(request, prefix):
     return render(
         request,
         'blog/search.html',
-        { 'query': query, 'picture': picture, 'prefix': prefix, 'results': results }
+        { 'query': query, 'picture': convert_to_base_64(request.user), 'prefix': prefix, 'results': results }
     )
 
 def profile(request, username):
@@ -45,23 +45,20 @@ def profile(request, username):
                 'content': post.content,
                 'created_at': convert_post_created_date(post.created_at),
                 'author': post.author.username,
-                'author_picture': convert_to_base_64(post.author.picture) if post.author.picture else None
+                'author_picture': convert_to_base_64(post.author)
             } for post in user_posts
         ]
     except User.DoesNotExist:
         user = None
         posts = None
 
-    picture = convert_to_base_64(request.user.picture) if request.user.picture else None
-    photo = convert_to_base_64(user.picture) if user.picture else None
-
     return render(
         request,
         'blog/profile.html', {
             'user': user,
             'posts': posts,
-            'picture': picture,
-            'photo': photo
+            'picture': convert_to_base_64(request.user),
+            'photo': convert_to_base_64(user)
         }
     )
 
@@ -77,13 +74,14 @@ def publish(request):
             kwargs={ 'username': request.user.username, 'post_id': post.id })
         )
 
-    picture = convert_to_base_64(request.user.picture) if request.user.picture else None
-
-    return render(request, 'blog/new_story.html', { 'user': request.user, 'picture': picture })
+    return render(
+        request,
+        'blog/new_story.html',
+        { 'user': request.user, 'picture': convert_to_base_64(request.user) }
+    )
 
 def view_post(request, username, post_id):
     user_post = get_object_or_404(Post, id=post_id, author__username=username)
-    picture = convert_to_base_64(request.user.picture) if request.user.picture else None
 
     post = {
         'id': user_post.id,
@@ -91,12 +89,12 @@ def view_post(request, username, post_id):
         'content': user_post.content,
         'created_at': user_post.created_at.date(),
         'author': user_post.author.username,
-        'author_picture': convert_to_base_64(user_post.author.picture) if user_post.author.picture else None
+        'author_picture': convert_to_base_64(user_post.author)
     }
 
     return render(
         request,
-        'blog/view_post.html', { 'post': post, 'picture': picture }
+        'blog/view_post.html', { 'post': post, 'picture': convert_to_base_64(request.user) }
     )
 
 def user_update(request, username):
@@ -122,9 +120,7 @@ def user_update(request, username):
 
         return redirect('profile', username=username)
 
-    picture = convert_to_base_64(request.user.picture) if request.user.picture else None
-
     return render(request, 'blog/user_update.html', {
         'user': request.user,
-        'picture': picture
+        'picture': convert_to_base_64(request.user)
     })

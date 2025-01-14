@@ -1,44 +1,36 @@
 {% extends 'blog/base.html' %}
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    {% block styles %}
-        <link rel="stylesheet" href="{% static 'blog/css/user_update.css' %}">
-    {% endblock %}
-    <title>
-        {% block title %}Settings - Minium{% endblock %}
-    </title>
-</head>
-<body>
-    {% block content %}
-        <div class="container">
-            <header class="update-header">
-                <h1>Profile information</h1>
-            </header>
-            <form method="POST" enctype="multipart/form-data" class="update-form">
-                {% csrf_token %}
-                <label>Photo</label>
-                <div class="picture-container">
-                    <div class="picture">
-                        {% if picture %}
-                            <img src="data:image/jpeg;base64,{{ picture }}" alt="picture" class="profile-picture-update">
-                        {% else %}
-                            <img src="{% static 'blog/images/user-profile.png' %}" alt="picture" class="not-profile-picture-update">
-                        {% endif %}
-                    </div>
-                    <input type="file" id="photo" name="photo" accept="image/*" class="file-upload">
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'blog/css/user_update.css' %}">
+{% endblock %}
+{% block title %}Settings - Minium{% endblock %}
+{% block content %}
+    <div class="container">
+        <header class="update-header">
+            <h1>Profile information</h1>
+        </header>
+        <form method="POST" enctype="multipart/form-data" class="update-form">
+            {% csrf_token %}
+            <label>Photo</label>
+            <div class="picture-container">
+                <div class="picture">
+                    {% if picture %}
+                        <img src="data:image/jpeg;base64,{{ picture }}" alt="picture" class="profile-picture-update">
+                    {% else %}
+                        <img src="{% static 'blog/images/user-profile.png' %}" alt="picture" class="not-profile-picture-update">
+                    {% endif %}
                 </div>
-                <label for="username">Username</label>
-                <input type="text" id="username" maxlength="50" name="username" placeholder="Your username" value="{{ user.username }}" class="username-update">
-                <label for="bio">Short bio</label>
-                <textarea id="bio" name="bio" maxlength="160" placeholder="..." class="bio-update">{% if user.bio %}{{ user.bio }}{% endif %}</textarea>
-                <div class="buttons">
-                    <a href="{% url 'profile' username=user.username %}" class="cancel">Cancel</a>
-                    <button type="submit" class="save">Save</button>
-                </div>
-            </form>
-        </div>
-    {% endblock %}
-</body>
-</html>
+                <input type="file" id="photo" name="photo" accept="image/*" class="file-upload">
+            </div>
+            <label for="username">Username</label>
+            <input type="text" id="username" maxlength="50" name="username" placeholder="Your username" value="{{ user.username }}" class="username-update">
+            <label for="bio">Short bio</label>
+            <textarea id="bio" name="bio" maxlength="160" placeholder="..." class="bio-update">{% if user.bio %}{{ user.bio }}{% endif %}</textarea>
+            <div class="buttons">
+                <a href="{% url 'profile' username=user.username %}" class="cancel">Cancel</a>
+                <button type="submit" class="save">Save</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
