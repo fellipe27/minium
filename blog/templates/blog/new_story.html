@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/x-icon" href="{% static 'blog/images/favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'blog/css/new_story.css' %}">
-    <title>New story - Minium</title>
+    <title>{% block title %}New story - Minium{% endblock %}</title>
 </head>
 <body>
     <header>
@@ -23,15 +23,15 @@
         </a>
     </header>
     <main>
-        <form method="POST" action="{% url 'new_story' %}">
+        <form method="POST" action="{% block url %}{% url 'new_story' %}{% endblock %}">
             {% csrf_token %}
             <label>
-                <input type="text" name="title" maxlength="120" placeholder="Title" class="title" required>
+                <input type="text" value="{% block post_title %}{% endblock %}" name="title" maxlength="120" placeholder="Title" class="title" required>
             </label>
             <label>
-                <textarea name="content" placeholder="Tell your story..." class="content" required></textarea>
+                <textarea name="content" placeholder="Tell your story..." class="content" required>{% block post_content %}{% endblock %}</textarea>
             </label>
-            <button type="submit" class="publish">Publish</button>
+            <button type="submit" class="publish">{% block button %}Publish{% endblock %}</button>
         </form>
     </main>
 </body>

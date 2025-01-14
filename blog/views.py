@@ -83,6 +83,11 @@ def publish(request):
 def view_post(request, username, post_id):
     user_post = get_object_or_404(Post, id=post_id, author__username=username)
 
+    if request.method == 'POST':
+        user_post.delete()
+
+        return redirect('profile', username=username)
+
     post = {
         'id': user_post.id,
         'title': user_post.title,
@@ -94,12 +99,13 @@ def view_post(request, username, post_id):
 
     return render(
         request,
-        'blog/view_post.html', { 'post': post, 'picture': convert_to_base_64(request.user) }
+        'blog/view_post.html',
+        { 'post': post, 'picture': convert_to_base_64(request.user), 'username': username }
     )
 
 def user_update(request, username):
     if request.user.username != username:
-        return redirect('/')
+        return redirect('profile', username=username)
 
     if request.method == 'POST':
         user = request.user
@@ -124,3 +130,29 @@ def user_update(request, username):
         'user': request.user,
         'picture': convert_to_base_64(request.user)
     })
+
+def post_update(request, username, post_id):
+    if request.user.username != username:
+        return redirect('profile', username=username)
+
+    post = get_object_or_404(Post, id=post_id, author__username=username)
+
+    if request.method == 'POST':
+        post.title = request.POST['title']
+        post.content = request.POST['content']
+
+        post.save()
+
+        return redirect(reverse(
+            'view_post',
+            kwargs={'username': request.user.username, 'post_id': post.id}
+        ))
+
+    return render(
+        request,
+        'blog/post_update.html',
+        {
+            'post': post,
+            'picture': convert_to_base_64(request.user)
+        }
+    )

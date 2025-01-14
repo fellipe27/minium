@@ -5,24 +5,31 @@
 {% block title %}{{ post.title }} | by {{ post.author }}{% endblock %}
 {% block content %}
     <div class="container">
-        <header>
-            <h1>{{ post.title }}</h1>
-            <div class="author">
-                <a href="{% url 'profile' username=post.author %}">
-                    {% if post.author_picture %}
-                        <img src="data:image/jpeg;base64,{{ post.author_picture }}" alt="user picture" class="post-profile-picture-image">
-                    {% else %}
-                        <img src="{% static 'blog/images/user-profile.png' %}" alt="picture" class="not-post-profile-picture-image">
-                    {% endif %}
-                </a>
-                <div class="post-author">
-                    <a href="{% url 'profile' username=post.author %}">{{ post.author }}</a>
-                    <span>{{ post.created_at }}</span>
-                </div>
+        <h1 class="title">{{ post.title }}</h1>
+        <div class="author">
+            <a href="{% url 'profile' username=post.author %}">
+                {% if post.author_picture %}
+                    <img src="data:image/jpeg;base64,{{ post.author_picture }}" alt="user picture" class="post-profile-picture-image">
+                {% else %}
+                    <img src="{% static 'blog/images/user-profile.png' %}" alt="picture" class="not-post-profile-picture-image">
+                {% endif %}
+            </a>
+            <div class="post-author">
+                <a href="{% url 'profile' username=post.author %}">{{ post.author }}</a>
+                <span>{{ post.created_at }}</span>
             </div>
-        </header>
+        </div>
         <div class="content">
             <p>{{ post.content|linebreaksbr }}</p>
         </div>
+        {% if request.user.username == username %}
+            <footer>
+                <a href="{% url 'post_update' username=username post_id=post.id %}" class="edit_post">Edit post</a>
+                <form method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="delete_post">Delete post</button>
+                </form>
+            </footer>
+        {% endif %}
     </div>
 {% endblock %}

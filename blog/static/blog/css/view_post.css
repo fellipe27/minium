@@ -11,22 +11,14 @@ body {
     gap: 20px;
     flex: 1;
 }
-.container > header {
-    width: 100%;
-    height: 33%;
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: baseline;
-    gap: 20px;
-}
-.container > header > h1 {
+.title {
     max-width: 100%;
     font-size: xx-large;
     font-family: "Arial", sans-serif;
     white-space: normal;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    margin-top: 50px;
 }
 .author {
     display: flex;
@@ -55,11 +47,36 @@ body {
 }
 .content {
     width: 100%;
-    height: 100%;
 }
 .content > p {
     font-family: "Times New Roman", serif;
     font-size: large;
     line-height: 27px;
-    padding-bottom: 50px;
+}
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+.edit_post {
+    width: 100px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid darkgray;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: small;
+}
+.delete_post {
+    width: 100px;
+    height: 30px;
+    color: white;
+    background-color: red;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
 }
