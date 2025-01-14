@@ -102,6 +102,7 @@ nav > a {
     flex-direction: column;
     border-bottom: 1px solid lightgray;
     gap: 10px;
+    position: relative;
 }
 .post-author {
     width: 100%;
@@ -127,7 +128,7 @@ nav > a {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding-bottom: 20px;
+    padding-bottom: 30px;
 }
 .post-info > h2 {
     width: 70%;
@@ -142,4 +143,15 @@ nav > a {
     text-overflow: ellipsis;
     font-size: small;
     color: gray;
+}
+.post-image {
+    width: 200px;
+    height: 100px;
+    background-position: center;
+    background-size: cover;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    border-radius: 5px;
+    transform: translateY(-60%);
 }

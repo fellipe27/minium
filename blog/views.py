@@ -24,7 +24,8 @@ def search(request, prefix):
                 'title': post.title,
                 'content': post.content,
                 'author': post.author.username,
-                'author_picture': convert_to_base_64(post.author)
+                'author_picture': convert_to_base_64(post.author),
+                'image': convert_to_base_64(post)
             } for post in Post.objects.filter(Q(title__icontains=query) | Q(content__icontains=query))
         ],
         'users': [
@@ -53,7 +54,8 @@ def profile(request, username):
                 'content': post.content,
                 'created_at': convert_post_created_date(post.created_at),
                 'author': post.author.username,
-                'author_picture': convert_to_base_64(post.author)
+                'author_picture': convert_to_base_64(post.author),
+                'image': convert_to_base_64(post)
             } for post in user_posts
         ]
     except User.DoesNotExist:

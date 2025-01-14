@@ -25,6 +25,7 @@
                             <h2 title="{{ post.title }}">{{ post.title }}</h2>
                             <p>{{ post.content }}</p>
                         </div>
+                        <div style="background-image: url('data:image/jpeg;base64,{{ post.image }}')" class="post-image"></div>
                     </a>
                 {% endfor %}
             {% elif prefix == 'users' and results.users %}
