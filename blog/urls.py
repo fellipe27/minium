@@ -3,7 +3,8 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('search/', views.search, name='search'),
+    path('search/posts/', views.search, { 'prefix': 'posts' }, name='search'),
+    path('search/users/', views.search, { 'prefix': 'users' }, name='search_users'),
     path('new-story/', views.publish, name='new_story'),
     path('@<str:username>/', views.profile, name='profile'),
     path('@<str:username>/<uuid:post_id>/', views.view_post, name='view_post'),

@@ -30,9 +30,9 @@
                     <input type="file" id="photo" name="photo" accept="image/*" class="file-upload">
                 </div>
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Your username" value="{{ user.username }}" class="username-update">
+                <input type="text" id="username" maxlength="50" name="username" placeholder="Your username" value="{{ user.username }}" class="username-update">
                 <label for="bio">Short bio</label>
-                <textarea id="bio" name="bio" placeholder="..." class="bio-update">{% if user.bio %}{{ user.bio }}{% endif %}</textarea>
+                <textarea id="bio" name="bio" maxlength="160" placeholder="..." class="bio-update">{% if user.bio %}{{ user.bio }}{% endif %}</textarea>
                 <div class="buttons">
                     <a href="{% url 'profile' username=user.username %}" class="cancel">Cancel</a>
                     <button type="submit" class="save">Save</button>

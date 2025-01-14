@@ -11,3 +11,81 @@
 .container > h1 > span {
     color: black;
 }
+nav {
+    height: 50px;
+    margin-left: 100px;
+    padding-top: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    font-size: small;
+}
+nav > a {
+    color: gray;
+    padding-bottom: 10px;
+}
+.nav-selected {
+    color: black;
+    border-bottom: 1px solid black;
+}
+.results {
+    padding-top: 20px;
+}
+.results > p {
+    color: gray;
+    margin-left: 100px;
+    line-height: 20px;
+}
+.user-search {
+    width: 60%;
+    height: 100px;
+    margin-left: 100px;
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    cursor: pointer;
+}
+.user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.user-info > p {
+    font-weight: bold;
+}
+.user-info > span {
+    font-size: small;
+}
+.user-picture {
+    width: 50px;
+    height: 50px;
+    border: 1px solid lightgray;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.user-photo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.not-user-photo {
+    width: 25px;
+    height: 25px;
+}
+.follow-form {
+    position: absolute;
+    right: 0;
+}
+.follow {
+    border: none;
+    background-color: green;
+    color: white;
+    font-size: small;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}

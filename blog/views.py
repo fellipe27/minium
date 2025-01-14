@@ -4,6 +4,7 @@ from .models import Post
 from django.urls import reverse
 from PIL import Image
 from .utils import convert_to_base_64, convert_post_created_date
+from django.db.models import Q
 
 def home(request):
     if not request.user.is_authenticated:
@@ -13,11 +14,25 @@ def home(request):
 
     return render(request, 'blog/home.html', { 'user': request.user, 'picture': picture })
 
-def search(request):
+def search(request, prefix):
     query = request.GET.get('q')
     picture = convert_to_base_64(request.user.picture) if request.user.picture else None
+    results = {
+        'posts': Post.objects.filter(Q(title__icontains=query) | Q(content__icontains=query)),
+        'users': [
+            {
+                'username': user.username,
+                'bio': user.bio,
+                'photo': convert_to_base_64(user.picture) if user.picture else None
+            } for user in User.objects.filter(username__icontains=query)
+        ]
+    }
 
-    return render(request, 'blog/search.html', { 'query': query, 'picture': picture })
+    return render(
+        request,
+        'blog/search.html',
+        { 'query': query, 'picture': picture, 'prefix': prefix, 'results': results }
+    )
 
 def profile(request, username):
     try:
