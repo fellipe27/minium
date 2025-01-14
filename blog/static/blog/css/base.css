@@ -84,6 +84,8 @@ a {
     width: 38px;
     height: 38px;
     border-radius: 50%;
+    background-position: center;
+    background-size: cover;
 }
 .not-profile-picture {
     width: 25px;

@@ -12,21 +12,34 @@
         <div class="results">
             {% if prefix == 'posts' and results.posts %}
                 {% for post in results.posts %}
-                    <p>{{ post.title }}</p>
+                    <a href="{% url 'view_post' username=post.author post_id=post.id %}" class="post-search">
+                        <div class="post-author">
+                            {% if post.author_picture %}
+                                <div style="background-image: url('data:image/jpeg;base64,{{ post.author_picture }}')" class="post-user-photo"></div>
+                            {% else %}
+                                <img src="{% static 'blog/images/user-profile.png' %}" alt="profile" class="not-post-user-photo">
+                            {% endif %}
+                            <span class="author-anchor">by {{ post.author }}</span>
+                        </div>
+                        <div class="post-info">
+                            <h2 title="{{ post.title }}">{{ post.title }}</h2>
+                            <p>{{ post.content }}</p>
+                        </div>
+                    </a>
                 {% endfor %}
             {% elif prefix == 'users' and results.users %}
                 {% for user in results.users %}
                     <a href="{% url 'profile' username=user.username %}" class="user-search">
                         <div class="user-picture">
                             {% if user.photo %}
-                                <img src="data:image/jpeg;base64,{{ user.photo }}" alt="picture" class="user-photo">
+                                <div style="background-image: url('data:image/jpeg;base64,{{ user.photo }}')" class="user-photo"></div>
                             {% else %}
                                 <img src="{% static 'blog/images/user-profile.png' %}" alt="profile" class="not-user-photo">
                             {% endif %}
                         </div>
                         <div class="user-info">
                             <p>{{ user.username }}</p>
-                            <span>{{ user.bio }}</span>
+                            {% if user.bio %}<span>{{ user.bio }}</span>{% endif %}
                         </div>
                         <form method="POST" class="follow-form">
                             {% csrf_token %}

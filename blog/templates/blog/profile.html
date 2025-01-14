@@ -15,7 +15,7 @@
                         <a href="{% url 'view_post' username=post.author post_id=post.id %}" class="card">
                             <div class="card-header">
                                 {% if post.author_picture %}
-                                    <img src="data:image/jpeg;base64,{{ post.author_picture }}" alt="user picture" class="post-profile-picture-image">
+                                    <div style="background-image: url('data:image/jpeg;base64,{{ post.author_picture }}')" class="post-profile-picture-image"></div>
                                 {% else %}
                                     <img src="{% static 'blog/images/user-profile.png' %}" alt="picture" class="not-post-profile-picture-image">
                                 {% endif %}
@@ -34,7 +34,7 @@
             <div class="first-row">
                 <div class="picture-container">
                     {% if photo %}
-                        <img src="data:image/jpeg;base64,{{ photo }}" alt="picture" class="profile-picture-image">
+                        <div style="background-image: url('data:image/jpeg;base64,{{ photo }}')" class="profile-picture-image"></div>
                     {% else %}
                         <img src="{% static 'blog/images/user-profile.png' %}" alt="picture" class="not-profile-picture-image">
                     {% endif %}

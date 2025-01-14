@@ -28,7 +28,7 @@
             </a>
             <a href="{% url 'profile' username=request.user.username %}" class="user">
                 {% if picture %}
-                    <img src="data:image/jpeg;base64,{{ picture }}" alt="picture" class="profile-picture">
+                <div style="background-image: url('data:image/jpeg;base64,{{ picture }}')" class="profile-picture"></div>
                 {% else %}
                     <img src="{% static 'blog/images/user-profile.png' %}" alt="profile" class="not-profile-picture">
                 {% endif %}

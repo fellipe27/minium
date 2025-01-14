@@ -16,7 +16,7 @@
             <div class="picture-container">
                 <div class="picture">
                     {% if picture %}
-                        <img src="data:image/jpeg;base64,{{ picture }}" alt="picture" class="profile-picture-update">
+                        <div style="background-image: url('data:image/jpeg;base64,{{ picture }}')" class="profile-picture-update"></div>
                     {% else %}
                         <img src="{% static 'blog/images/user-profile.png' %}" alt="picture" class="not-profile-picture-update">
                     {% endif %}

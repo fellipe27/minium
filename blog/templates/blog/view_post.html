@@ -9,7 +9,7 @@
         <div class="author">
             <a href="{% url 'profile' username=post.author %}">
                 {% if post.author_picture %}
-                    <img src="data:image/jpeg;base64,{{ post.author_picture }}" alt="user picture" class="post-profile-picture-image">
+                    <div style="background-image: url('data:image/jpeg;base64,{{ post.author_picture }}')" class="post-profile-picture-image"></div>
                 {% else %}
                     <img src="{% static 'blog/images/user-profile.png' %}" alt="picture" class="not-post-profile-picture-image">
                 {% endif %}
@@ -20,6 +20,9 @@
             </div>
         </div>
         <div class="content">
+            {% if post.image %}
+                <div style="background-image: url('data:image/jpeg;base64,{{ post.image }}')" class="post-image"></div>
+            {% endif %}
             <p>{{ post.content|linebreaksbr }}</p>
         </div>
         {% if request.user.username == username %}

@@ -18,7 +18,15 @@ def home(request):
 def search(request, prefix):
     query = request.GET.get('q')
     results = {
-        'posts': Post.objects.filter(Q(title__icontains=query) | Q(content__icontains=query)),
+        'posts': [
+            {
+                'id': post.id,
+                'title': post.title,
+                'content': post.content,
+                'author': post.author.username,
+                'author_picture': convert_to_base_64(post.author)
+            } for post in Post.objects.filter(Q(title__icontains=query) | Q(content__icontains=query))
+        ],
         'users': [
             {
                 'username': user.username,
@@ -69,6 +77,10 @@ def publish(request):
 
         post = Post.objects.create(title=title, content=content, author=request.user)
 
+        if 'image' in request.FILES:
+            post.picture = request.FILES['image'].read()
+            post.save()
+
         return redirect(reverse(
             'view_post',
             kwargs={ 'username': request.user.username, 'post_id': post.id })
@@ -94,7 +106,8 @@ def view_post(request, username, post_id):
         'content': user_post.content,
         'created_at': user_post.created_at.date(),
         'author': user_post.author.username,
-        'author_picture': convert_to_base_64(user_post.author)
+        'author_picture': convert_to_base_64(user_post.author),
+        'image': convert_to_base_64(user_post)
     }
 
     return render(
@@ -140,6 +153,9 @@ def post_update(request, username, post_id):
     if request.method == 'POST':
         post.title = request.POST['title']
         post.content = request.POST['content']
+
+        if 'image' in request.FILES:
+            post.picture = request.FILES['image'].read()
 
         post.save()
 

@@ -50,6 +50,8 @@
     width: 25px;
     height: 25px;
     border-radius: 50%;
+    background-position: center;
+    background-size: cover;
 }
 .not-post-profile-picture-image {
     margin-left: 10px;
@@ -147,6 +149,8 @@
     width: 103px;
     height: 103px;
     border-radius: 50%;
+    background-position: center;
+    background-size: cover;
 }
 .not-profile-picture-image {
     width: 70px;

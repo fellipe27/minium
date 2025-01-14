@@ -16,15 +16,19 @@
         </div>
         <a href="{% url 'profile' username=request.user.username %}" class="user">
             {% if picture %}
-                <img src="data:image/jpeg;base64,{{ picture }}" alt="picture" class="profile-picture-publish">
+            <div style="background-image: url('data:image/jpeg;base64,{{ picture }}')" class="profile-picture-publish"></div>
             {% else %}
                 <img src="{% static 'blog/images/user-profile.png' %}" alt="profile" class="not-profile-picture-publish">
             {% endif %}
         </a>
     </header>
     <main>
-        <form method="POST" action="{% block url %}{% url 'new_story' %}{% endblock %}">
+        <form method="POST" enctype="multipart/form-data" action="{% block url %}{% url 'new_story' %}{% endblock %}">
             {% csrf_token %}
+            <label for="image" title="Add story image" class="story-file">
+                <img src="{% static 'blog/images/image-icon.png' %}" alt="image">
+            </label>
+            <input type="file" id="image" name="image" accept="image/*" class="file-input">
             <label>
                 <input type="text" value="{% block post_title %}{% endblock %}" name="title" maxlength="120" placeholder="Title" class="title" required>
             </label>

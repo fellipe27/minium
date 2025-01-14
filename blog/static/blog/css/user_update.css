@@ -55,6 +55,8 @@ label {
     width: 103px;
     height: 103px;
     border-radius: 50%;
+    background-position: center;
+    background-size: cover;
 }
 .not-profile-picture-update {
     width: 70px;
