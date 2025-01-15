@@ -45,7 +45,7 @@
                     <button type="submit" class="post-comment">Respond</button>
                 </form>
             {% endif %}
-            {% if comments.amount > 0 %}
+            {% if post.comments.amount > 0 %}
                 {% for comment in post.comments.responses %}
                     <div class="comment">
                         <div class="comment-user-info">

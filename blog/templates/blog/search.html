@@ -33,7 +33,7 @@
                             </div>
                             <div class="comments">
                                 <img src="{% static 'blog/images/comments.png' %}" alt="Claps">
-                                <span>14</span>
+                                <span>{{ post.comments }}</span>
                             </div>
                         </div>
                         <div style="background-image: url('data:image/jpeg;base64,{{ post.image }}')" class="post-image"></div>

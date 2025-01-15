@@ -16,6 +16,9 @@ def home(request):
     )
 
 def search(request, prefix):
+    if not request.user.is_authenticated:
+        return redirect('/home')
+
     query = request.GET.get('q')
     results = {
         'posts': [
@@ -26,7 +29,8 @@ def search(request, prefix):
                 'author': post.author.username,
                 'created_at': post.created_at.date(),
                 'author_picture': convert_to_base_64(post.author),
-                'image': convert_to_base_64(post)
+                'image': convert_to_base_64(post),
+                'comments': len(post.comments.all())
             } for post in Post.objects.filter(Q(title__icontains=query) | Q(content__icontains=query))
         ],
         'users': [
@@ -45,6 +49,9 @@ def search(request, prefix):
     )
 
 def profile(request, username):
+    if not request.user.is_authenticated:
+        return redirect('/home')
+
     try:
         user = User.objects.get(username=username)
 
@@ -75,6 +82,9 @@ def profile(request, username):
     )
 
 def publish(request):
+    if not request.user.is_authenticated:
+        return redirect('/home')
+
     if request.method == 'POST':
         title = request.POST['title']
         content = request.POST['content']
@@ -97,6 +107,9 @@ def publish(request):
     )
 
 def view_post(request, username, post_id):
+    if not request.user.is_authenticated:
+        return redirect('/home')
+
     user_post = get_object_or_404(Post, id=post_id, author__username=username)
 
     if request.method == 'POST':
@@ -142,6 +155,8 @@ def view_post(request, username, post_id):
     )
 
 def user_update(request, username):
+    if not request.user.is_authenticated:
+        return redirect('/home')
     if request.user.username != username:
         return redirect('profile', username=username)
 
@@ -170,6 +185,8 @@ def user_update(request, username):
     })
 
 def post_update(request, username, post_id):
+    if not request.user.is_authenticated:
+        return redirect('/home')
     if request.user.username != username:
         return redirect('profile', username=username)
 

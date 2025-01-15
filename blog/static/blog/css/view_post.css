@@ -54,6 +54,7 @@ body {
     font-family: "Times New Roman", serif;
     font-size: large;
     line-height: 27px;
+    white-space: pre-wrap;
     text-align: justify;
 }
 footer {
@@ -96,6 +97,7 @@ footer {
     flex-direction: column;
     gap: 20px;
     padding-bottom: 50px;
+    margin-top: 10px;
 }
 .post-form {
     width: 100%;
