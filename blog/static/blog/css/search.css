@@ -41,7 +41,7 @@ nav > a {
     line-height: 20px;
 }
 .user-search {
-    width: 60%;
+    width: 55%;
     margin-left: 100px;
     border-bottom: 1px solid lightgray;
     display: flex;
@@ -96,7 +96,7 @@ nav > a {
     cursor: pointer;
 }
 .post-search {
-    width: 60%;
+    width: 55%;
     margin-left: 100px;
     display: flex;
     flex-direction: column;
@@ -128,16 +128,46 @@ nav > a {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding-bottom: 30px;
+}
+.post-footer {
+    padding-top: 10px;
+    padding-bottom: 20px;
+    font-size: smaller;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+.post-footer > span {
+    font-size: smaller;
+}
+.claps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: smaller;
+}
+.claps > img {
+    width: 15px;
+}
+.comments {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: smaller;
+}
+.comments > img {
+    width: 15px;
 }
 .post-info > h2 {
-    width: 70%;
+    width: 60%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .post-info > p {
-    width: 70%;
+    width: 60%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

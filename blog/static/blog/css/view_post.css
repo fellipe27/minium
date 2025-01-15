@@ -3,7 +3,7 @@ body {
     overflow-x: hidden;
 }
 .container {
-    width: 60%;
+    width: 56%;
     height: 100%;
     margin: auto;
     display: flex;
@@ -54,6 +54,7 @@ body {
     font-family: "Times New Roman", serif;
     font-size: large;
     line-height: 27px;
+    text-align: justify;
 }
 footer {
     display: flex;
@@ -88,4 +89,68 @@ footer {
     margin-bottom: 20px;
     background-position: center;
     background-size: cover;
+}
+.comments {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 50px;
+}
+.post-form {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid lightgray;
+    padding: 5px 0;
+    border-radius: 10px;
+}
+.post-form > label {
+    width: 85%;
+    margin-left: -5px;
+}
+.input-comment {
+    width: 100%;
+    margin-left: 8px;
+}
+.post-comment {
+    border: none;
+    background-color: green;
+    border-radius: 10px;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-right: 6px;
+}
+.comment {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-bottom: 1px solid lightgray;
+}
+.comment-user-info {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.comments > span {
+    color: gray;
+}
+.comment-user > span {
+    font-size: smaller;
+    color: gray;
+}
+.comment > p {
+    padding-bottom: 10px;
+}
+.comment-user-image {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-position: center;
+    background-size: cover;
+}
+.not-comment-user-image {
+    width: 25px;
+    height: 25px;
 }

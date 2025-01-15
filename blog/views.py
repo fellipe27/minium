@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from accounts.models import User
-from .models import Post
+from .models import Post, Comment
 from django.urls import reverse
 from .utils import convert_to_base_64, convert_post_created_date
 from django.db.models import Q
@@ -24,6 +24,7 @@ def search(request, prefix):
                 'title': post.title,
                 'content': post.content,
                 'author': post.author.username,
+                'created_at': post.created_at.date(),
                 'author_picture': convert_to_base_64(post.author),
                 'image': convert_to_base_64(post)
             } for post in Post.objects.filter(Q(title__icontains=query) | Q(content__icontains=query))
@@ -46,6 +47,7 @@ def search(request, prefix):
 def profile(request, username):
     try:
         user = User.objects.get(username=username)
+
         user_posts = Post.objects.filter(author=user)
         posts = [
             {
@@ -85,8 +87,8 @@ def publish(request):
 
         return redirect(reverse(
             'view_post',
-            kwargs={ 'username': request.user.username, 'post_id': post.id })
-        )
+            kwargs={ 'username': request.user.username, 'post_id': post.id }
+        ))
 
     return render(
         request,
@@ -98,9 +100,18 @@ def view_post(request, username, post_id):
     user_post = get_object_or_404(Post, id=post_id, author__username=username)
 
     if request.method == 'POST':
-        user_post.delete()
+        if 'comment' not in request.POST:
+            user_post.delete()
 
-        return redirect('profile', username=username)
+            return redirect('profile', username=username)
+        else:
+            comment = request.POST['comment']
+            Comment.objects.create(content=comment, post=user_post, author=request.user)
+
+            return redirect(reverse(
+                'view_post',
+                kwargs={ 'username': username, 'post_id': post_id }
+            ))
 
     post = {
         'id': user_post.id,
@@ -109,7 +120,19 @@ def view_post(request, username, post_id):
         'created_at': user_post.created_at.date(),
         'author': user_post.author.username,
         'author_picture': convert_to_base_64(user_post.author),
-        'image': convert_to_base_64(user_post)
+        'image': convert_to_base_64(user_post),
+        'comments': {
+            'amount': len(user_post.comments.all()),
+            'responses': [
+                {
+                    'id': comment.id,
+                    'content': comment.content,
+                    'author': comment.author.username,
+                    'author_picture': convert_to_base_64(comment.author),
+                    'created_at': comment.created_at.date()
+                } for comment in user_post.comments.all()
+            ]
+        }
     }
 
     return render(
