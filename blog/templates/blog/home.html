@@ -1,0 +1,48 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'blog/css/home.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <nav>
+            <a href="{% url 'blog:home'%}" class="{% if not query %}nav-selected{% endif %}">For you</a>
+            <a href="{% url 'blog:home'%}?feed=following" class="{% if query %}nav-selected{% endif %}">Following</a>
+        </nav>
+        <div class="results">
+            {% if posts %}
+                {% for post in posts %}
+                    <a href="{% url 'blog:view_post' username=post.author post_id=post.id %}" class="post-search">
+                        <div class="post-author">
+                            {% if post.author_picture %}
+                                <div style="background-image: url('data:image/jpeg;base64,{{ post.author_picture }}')" class="post-user-photo"></div>
+                            {% else %}
+                                <img src="{% static 'blog/images/user-profile.png' %}" alt="profile" class="not-post-user-photo">
+                            {% endif %}
+                            <span class="author-anchor">by {{ post.author }}</span>
+                        </div>
+                        <div class="post-info">
+                            <h2 title="{{ post.title }}">{{ post.title }}</h2>
+                            <p>{{ post.content }}</p>
+                        </div>
+                        <div class="post-footer">
+                            <span>{{ post.created_at }}</span>
+                            <div class="claps">
+                                <img src="{% static 'blog/images/clap.png' %}" alt="Claps">
+                                <span>{{ post.claps }}</span>
+                            </div>
+                            <div class="comments">
+                                <img src="{% static 'blog/images/comments.png' %}" alt="Claps">
+                                <span>{{ post.comments }}</span>
+                            </div>
+                        </div>
+                        <div style="background-image: url('data:image/jpeg;base64,{{ post.image }}')" class="post-image"></div>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <span>Nothing to show for now :(</span>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

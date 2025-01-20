@@ -1,0 +1,6 @@
+venv/
+db.sqlite3
+.env
+accounts/migrations/
+blog/migrations/
+landing/migrations/

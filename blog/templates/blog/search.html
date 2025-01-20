@@ -1,0 +1,78 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block styles %}<link rel="stylesheet" href="{% static 'blog/css/search.css' %}">{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1>Results for <span>{{ query }}</span></h1>
+        <nav>
+            <a href="{% url 'blog:search'%}?q={{ query }}" class="{% if prefix == 'posts' %}nav-selected{% endif %}">Stories</a>
+            <a href="{% url 'blog:search_users'%}?q={{ query }}" class="{% if prefix == 'users' %}nav-selected{% endif %}">People</a>
+        </nav>
+        <div class="results">
+            {% if prefix == 'posts' and results.posts %}
+                {% for post in results.posts %}
+                    <a href="{% url 'blog:view_post' username=post.author post_id=post.id %}" class="post-search">
+                        <div class="post-author">
+                            {% if post.author_picture %}
+                                <div style="background-image: url('data:image/jpeg;base64,{{ post.author_picture }}')" class="post-user-photo"></div>
+                            {% else %}
+                                <img src="{% static 'blog/images/user-profile.png' %}" alt="profile" class="not-post-user-photo">
+                            {% endif %}
+                            <span class="author-anchor">by {{ post.author }}</span>
+                        </div>
+                        <div class="post-info">
+                            <h2 title="{{ post.title }}">{{ post.title }}</h2>
+                            <p>{{ post.content }}</p>
+                        </div>
+                        <div class="post-footer">
+                            <span>{{ post.created_at }}</span>
+                            <div class="claps">
+                                <img src="{% static 'blog/images/clap.png' %}" alt="Claps">
+                                <span>{{ post.claps }}</span>
+                            </div>
+                            <div class="comments">
+                                <img src="{% static 'blog/images/comments.png' %}" alt="Claps">
+                                <span>{{ post.comments }}</span>
+                            </div>
+                        </div>
+                        <div style="background-image: url('data:image/jpeg;base64,{{ post.image }}')" class="post-image"></div>
+                    </a>
+                {% endfor %}
+            {% elif prefix == 'users' and results.users %}
+                {% for user in results.users %}
+                    <a href="{% url 'blog:profile' username=user.username %}" class="user-search">
+                        <div class="user-picture">
+                            {% if user.photo %}
+                                <div style="background-image: url('data:image/jpeg;base64,{{ user.photo }}')" class="user-photo"></div>
+                            {% else %}
+                                <img src="{% static 'blog/images/user-profile.png' %}" alt="profile" class="not-user-photo">
+                            {% endif %}
+                        </div>
+                        <div class="user-info">
+                            <p>{{ user.username }}</p>
+                            {% if user.bio %}<span>{{ user.bio }}</span>{% endif %}
+                        </div>
+                        <form method="POST" class="follow-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                            {% if request.user.id != user.id %}
+                                <button type="submit" class="follow-button {% if not user.is_followed %}follow{% else %}unfollow{% endif %}">
+                                    {% if not user.is_followed %}
+                                        Follow
+                                    {% else %}
+                                        Unfollow
+                                    {% endif %}
+                                </button>
+                            {% endif %}
+                        </form>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <p>Make sure all words are spelled correctly.</p>
+                <p>Try different keywords.</p>
+                <p>Try more general keywords.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

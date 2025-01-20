@@ -1,0 +1,113 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block styles %}<link rel="stylesheet" href="{% static 'blog/css/view_post.css' %}">{% endblock %}
+{% block title %}{{ post.title }} | by {{ post.author }}{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1 class="title">{{ post.title }}</h1>
+        <div class="author">
+            <a href="{% url 'blog:profile' username=post.author %}">
+                {% if post.author_picture %}
+                    <div style="background-image: url('data:image/jpeg;base64,{{ post.author_picture }}')" class="post-profile-picture-image"></div>
+                {% else %}
+                    <img src="{% static 'blog/images/user-profile.png' %}" alt="picture" class="not-post-profile-picture-image">
+                {% endif %}
+            </a>
+            <div class="post-author">
+                <div class="user-and-follow">
+                    <a href="{% url 'blog:profile' username=post.author %}">{{ post.author.username }}</a>
+                    {% if request.user.id != post.author.id %}
+                        <span>.</span>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_id" value="{{ post.author.id }}">
+                            <button type="submit">
+                                {% if post.author_is_followed %}
+                                    Unfollow
+                                {% else %}
+                                    Follow
+                                {% endif %}
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+                <span>{{ post.created_at }}</span>
+            </div>
+            {% if request.user.id != post.author.id %}
+                <div class="claps">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="user_id_for_clap">
+                        <button type="submit" class="clap-button">
+                            {% if post.user_liked %}
+                                <img src="{% static 'blog/images/unlike.png' %}" alt="unlike" class="unlike-button">
+                            {% else %}
+                                <img src="{% static 'blog/images/clap.png' %}" alt="like" class="like-button">
+                            {% endif %}
+                            <span>{{ post.claps }}</span>
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+                <div class="claps">
+                    <button style="cursor: default" type="submit" class="clap-button">
+                        {% if post.user_liked %}
+                            <img src="{% static 'blog/images/unlike.png' %}" alt="unlike" class="unlike-button">
+                        {% else %}
+                            <img src="{% static 'blog/images/clap.png' %}" alt="like" class="like-button">
+                        {% endif %}
+                        <span>{{ post.claps }}</span>
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+        <div class="content">
+            {% if post.image %}
+                <div style="background-image: url('data:image/jpeg;base64,{{ post.image }}')" class="post-image"></div>
+            {% endif %}
+            <p>{{ post.content|linebreaksbr }}</p>
+        </div>
+        {% if request.user.username == username %}
+            <footer>
+                <a href="{% url 'blog:post_update' username=username post_id=post.id %}" class="edit_post">Edit post</a>
+                <form method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="delete_post">Delete post</button>
+                </form>
+            </footer>
+        {% endif %}
+        <div class="comments">
+            <h2>Responses ({{ post.comments.amount }})</h2>
+            {% if request.user.username != username %}
+                <form method="POST" class="post-form">
+                    {% csrf_token %}
+                    <label>
+                        <input type="text" name="comment" id="comment" class="input-comment" placeholder="What are you thoughts?">
+                    </label>
+                    <button type="submit" class="post-comment">Respond</button>
+                </form>
+            {% endif %}
+            {% if post.comments.amount > 0 %}
+                {% for comment in post.comments.responses %}
+                    <div class="comment">
+                        <div class="comment-user-info">
+                            {% if comment.author_picture %}
+                                <div style="background-image: url('data:image/jpeg;base64,{{ comment.author_picture }}')" class="comment-user-image"></div>
+                            {% else %}
+                                <img src="{% static 'blog/images/user-profile.png' %}" alt="picture" class="not-comment-user-image">
+                            {% endif %}
+                            <div class="comment-user">
+                                <a href="{% url 'blog:profile' username=comment.author %}">{{ comment.author }}</a>
+                                <span>{{ comment.created_at }}</span>
+                            </div>
+                        </div>
+                        <p>{{ comment.content }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <span>No comments yet</span>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

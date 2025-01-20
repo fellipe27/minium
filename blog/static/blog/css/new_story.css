@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Arial", sans-serif;
+    position: relative;
+}
+header {
+    width: 80%;
+    height: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+h1 {
+    font-family: "Times New Roman", serif;
+}
+main {
+    width: 70%;
+    height: 90%;
+    margin-top: 20px;
+}
+img {
+    width: 20px;
+}
+input {
+    width: 100%;
+    height: 30px;
+    background-color: transparent;
+    transition: border 0.3s ease;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+}
+a {
+    text-decoration-line: none;
+    color: black;
+}
+.header-principal {
+    width: 85%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 20px;
+}
+.draft {
+    font-size: small;
+    transform: translateY(3px);
+}
+.header-menu {
+    width: 15%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.user {
+    width: 35px;
+    height: 35px;
+    border: 1px solid lightgray;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.profile-picture-publish {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-position: center;
+    background-size: cover;
+}
+.not-profile-picture-publish {
+    width: 25px;
+    height: 25px;
+}
+.publish {
+    background-color: mediumseagreen;
+    color: white;
+    font-size: small;
+    border-radius: 15px;
+    width: 115px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 13px;
+    right: 180px;
+}
+.title {
+    width: 100%;
+    height: 12%;
+    font-size: xx-large;
+    font-family: "Times New Roman", serif;
+}
+.content {
+    width: 100%;
+    height: 85%;
+    font-size: x-large;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: "Times New Roman", serif;
+}
+.story-file {
+    width: 40px;
+    height: 40px;
+    border: 1px solid lightgray;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    left: 120px;
+    transform: translateY(30px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.file-input {
+    display: none;
+}

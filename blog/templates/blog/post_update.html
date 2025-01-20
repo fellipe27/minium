@@ -1,0 +1,7 @@
+{% extends 'blog/new_story.html' %}
+
+{% block title %}Editing {{ post.title }} - Minium{% endblock %}
+{% block url %}{% url 'blog:post_update' username=request.user post_id=post.id %}{% endblock %}
+{% block post_title %}{{ post.title }}{% endblock %}
+{% block post_content %}{{ post.content }}{% endblock %}
+{% block button %}Save and publish{% endblock %}

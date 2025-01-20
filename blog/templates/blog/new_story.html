@@ -1,0 +1,42 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="{% static 'blog/images/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/new_story.css' %}">
+    <title>{% block title %}New story - Minium{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <div class="header-principal">
+            <a href="{% url 'blog:home' %}">
+                <h1>Minium</h1>
+            </a>
+            <span class="draft">Draft in {{ user.username }}</span>
+        </div>
+        <a href="{% url 'blog:profile' username=request.user.username %}" class="user">
+            {% if picture %}
+            <div style="background-image: url('data:image/jpeg;base64,{{ picture }}')" class="profile-picture-publish"></div>
+            {% else %}
+                <img src="{% static 'blog/images/user-profile.png' %}" alt="profile" class="not-profile-picture-publish">
+            {% endif %}
+        </a>
+    </header>
+    <main>
+        <form method="POST" enctype="multipart/form-data" action="{% block url %}{% url 'blog:new_story' %}{% endblock %}">
+            {% csrf_token %}
+            <label for="image" title="Add story image" class="story-file">
+                <img src="{% static 'blog/images/image-icon.png' %}" alt="image">
+            </label>
+            <input type="file" id="image" name="image" accept="image/*" class="file-input">
+            <label>
+                <input type="text" value="{% block post_title %}{% endblock %}" name="title" maxlength="120" placeholder="Title" class="title" required>
+            </label>
+            <label>
+                <textarea name="content" placeholder="Tell your story..." class="content" required>{% block post_content %}{% endblock %}</textarea>
+            </label>
+            <button type="submit" class="publish">{% block button %}Publish{% endblock %}</button>
+        </form>
+    </main>
+</body>
+</html>
