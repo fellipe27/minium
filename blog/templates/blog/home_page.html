@@ -1,0 +1,45 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block styles %}<link rel="stylesheet" href="{% static 'blog/css/home_page.css' %}">{% endblock %}
+    <title>Minium</title>
+</head>
+<body>
+    {% block content %}
+        <main>
+            <nav>
+                <a href="{% url 'blog:home'%}" class="{% if not query %}nav-selected{% endif %}">For you</a>
+                <a href="{% url 'blog:home'%}?feed=following" class="{% if query %}nav-selected{% endif %}">Following</a>
+            </nav>
+            <div class="results">
+                {% if posts %}
+                    {% for post in posts %}
+                        <a href="{% url 'blog:view_post' username=post.author.username post_id=post.id %}" class="post">
+                            <div class="post-data">
+                                <h2 title="{{ post.title }}">{{ post.title }}</h2>
+                                <p>{{ post.story }}</p>
+                                <div class="post-info">
+                                    <span>{{ post.created_at }}</span>
+                                    <div class="post-claps">
+                                        <img src="{% static 'blog/images/claps.svg' %}" alt="Claps image">
+                                        <span>{{ post.claps.amount }}</span>
+                                    </div>
+                                    <div class="post-comments">
+                                        <img src="{% static 'blog/images/comment.svg' %}" alt="Comment image">
+                                        <span>{{ post.comments.amount }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="background-image: url('data:image/jpeg;base64,{{ post.picture }}')" class="post-picture"></div>
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <span>Nothing to show for now :(</span>
+                {% endif %}
+            </div>
+        </main>
+    {% endblock %}
+</body>
+</html>

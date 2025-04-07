@@ -1,0 +1,72 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block styles %}<link rel="stylesheet" href="{% static 'blog/css/search_page.css' %}">{% endblock %}
+    <title>Minium</title>
+</head>
+<body>
+    {% block content %}
+        <main>
+            <h1>Results for <span>{{ query }}</span></h1>
+            <nav>
+                <a href="{% url 'blog:search_posts'%}?q={{ query }}" class="{% if prefix == 'posts' %}nav-selected{% endif %}">Stories</a>
+                <a href="{% url 'blog:search_users'%}?q={{ query }}" class="{% if prefix == 'users' %}nav-selected{% endif %}">People</a>
+            </nav>
+            <div class="results">
+                {% if prefix == 'posts' and results.posts %}
+                    {% for post in results.posts %}
+                        <a href="{% url 'blog:view_post' username=post.author.username post_id=post.id %}" class="post">
+                            <div class="post-data">
+                                <h2 title="{{ post.title }}">{{ post.title }}</h2>
+                                <p>{{ post.story }}</p>
+                                <div class="post-info">
+                                    <span>{{ post.created_at }}</span>
+                                    <div class="post-claps">
+                                        <img src="{% static 'blog/images/claps.svg' %}" alt="Claps image">
+                                        <span>{{ post.claps.amount }}</span>
+                                    </div>
+                                    <div class="post-comments">
+                                        <img src="{% static 'blog/images/comment.svg' %}" alt="Comment image">
+                                        <span>{{ post.comments.amount }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="background-image: url('data:image/jpeg;base64,{{ post.picture }}')" class="post-picture"></div>
+                        </a>
+                    {% endfor %}
+                {% elif prefix == 'users' and results.users %}
+                    {% for user in results.users %}
+                        <a href="{% url 'blog:profile' username=user.data.username %}" class="user">
+                            <div style="background-image: url('data:image/jpeg;base64,{{ user.data.picture }}')" class="user-picture">
+                                {% if not user.data.picture %}
+                                    <img src="{% static 'blog/images/user-profile-picture.png' %}" alt="User picture" class="not-user-picture">
+                                {% endif %}
+                            </div>
+                            <span>{{ user.data.username }}</span>
+                            <form method="POST" class="follow-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{ user.data.id }}">
+                                {% if request.user.id != user.data.id %}
+                                    <button type="submit" class="follow-button {% if user.is_followed %}unfollow{% else %}follow{% endif %}">
+                                        {% if user.is_followed %}
+                                            Unfollow
+                                        {% else %}
+                                            Follow
+                                        {% endif %}
+                                    </button>
+                                {% endif %}
+                            </form>
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <p>Make sure all words are spelled correctly.</p>
+                    <p>Try different keywords.</p>
+                    <p>Try more general keywords.</p>
+                {% endif %}
+            </div>
+        </main>
+    {% endblock %}
+</body>
+</html>

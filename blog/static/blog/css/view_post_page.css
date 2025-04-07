@@ -1,0 +1,199 @@
+main {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    h1 {
+        font-family: Arial, Helvetica, sans-serif;
+        margin-top: 100px;
+    }
+    p {
+        font-family: "Times New Roman", serif;
+        font-size: large;
+        line-height: 27px;
+        white-space: pre-wrap;
+        text-align: justify;
+    }
+    .author-info {
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        position: relative;
+
+        .author-picture {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: lightgray;
+
+            .not-user-picture {
+                width: 100%;
+            }
+            .profile-picture {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                background-size: cover;
+                background-position: center;
+            }
+        }
+        .author-post {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            span {
+                font-size: small;
+                color: gray;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+        }
+        .post-claps {
+            position: absolute;
+            right: 0;
+
+            a {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                cursor: pointer;
+                font-size: small;
+
+                img {
+                    width: 20px;
+                }
+            }
+            .already-clap {
+                font-weight: bold;
+                color: green;
+            }
+        }
+    }
+    .post-picture {
+        width: 100%;
+        height: 250px;
+        border-radius: 5px;
+        background-position: center;
+        background-size: cover;
+    }
+    .author-options {
+        width: 100%;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: small;
+
+        .edit-post {
+            width: 115px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            cursor: pointer;
+            border: 1px solid darkgray;
+        }
+        .delete-post {
+            width: 115px;
+            height: 30px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            cursor: pointer;
+            color: white;
+            background-color: red;
+        }
+    }
+    .post-comments {
+        width: 100%;
+        min-height: 150px;
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        span {
+            color: gray;
+        }
+        .comment-form {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 1px solid lightgray;
+
+            label {
+                width: 85%;
+                margin-left: -5px;
+            }
+            .input-comment {
+                width: 100%;
+                height: 100%;
+                margin-left: 15px;
+                border: none;
+                outline: none;
+            }
+            .post-comment {
+                border: none;
+                border-radius: 20px;
+                padding: 5px 10px;
+                cursor: pointer;
+                margin-right: 6px;
+                color: white;
+                background-color: green;
+            }
+        }
+        .comment {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-bottom: 1px solid lightgray;
+
+            p {
+                padding-bottom: 10px;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: small;
+            }
+        }
+        .comment-user {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            span {
+                font-size: smaller;
+                color: gray;
+            }
+            a:hover {
+                text-decoration-line: underline;
+            }
+        }
+        .comment-user-info {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .user-picture {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-position: center;
+            background-size: cover;
+        }
+        .not-user-picture {
+            width: 35px;
+            height: 35px;
+        }
+    }
+}

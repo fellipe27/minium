@@ -1,0 +1,79 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block styles %}<link rel="stylesheet" href="{% static 'blog/css/view_post_page.css' %}">{% endblock %}
+    <title>{% block title %}{{ post.title }} | by {{ owner.username }}{% endblock %}</title>
+</head>
+<body>
+    {% block content %}
+        <main>
+            <h1>{{ post.title }}</h1>
+            <div class="author-info">
+                <a href="{% url 'blog:profile' username=owner.username %}" class="author-picture">
+                    {% if not owner.picture %}
+                        <img src="{% static 'blog/images/user-profile-picture.png' %}" alt="User picture" class="not-user-picture">
+                    {% else %}
+                        <div style="background-image: url('data:image/jpeg;base64,{{ owner.picture }}')" class="profile-picture"></div>
+                    {% endif %}
+                </a>
+                <div class="author-post">
+                    <a href="{% url 'blog:profile' username=owner.username %}">{{ owner.username }}</a>
+                    <span>{{ post.created_at }}</span>
+                </div>
+                <div class="post-claps">
+                    <a href="{% url 'blog:clap_post' username=post.author.username post_id=post.id %}">
+                        {% if post.claps.already_clap %}
+                            <img src="{% static 'blog/images/user-already-clap.svg' %}" alt="Claps amount">
+                        {% else %}
+                            <img src="{% static 'blog/images/claps.svg' %}" alt="Claps amount">
+                        {% endif %}
+                        <span class="{% if post.already_clap %}already-clap{% endif %}">{{ post.claps.amount }}</span>
+                    </a>
+                </div>
+            </div>
+            <div style="background-image: url('data:image/jpeg;base64,{{ post.picture }}')" class="post-picture"></div>
+            <p>{{ post.story|linebreaksbr }}</p>
+            {% if user.username == owner.username %}
+                <div class="author-options">
+                    <a href="{% url 'blog:update_post' username=owner.username post_id=post.id %}" class="edit-post">Edit post</a>
+                    <a href="{% url 'blog:delete_post' username=owner.username post_id=post.id %}" class="delete-post">Delete post</a>
+                </div>
+            {% endif %}
+            <div class="post-comments">
+                <h2>Responses ({{ post.comments.amount }})</h2>
+                {% if request.user.username != owner.username %}
+                    <form method="POST" class="comment-form">
+                        {% csrf_token %}
+                        <label>
+                            <input type="text" name="comment" id="comment" class="input-comment" placeholder="What are you thoughts?">
+                        </label>
+                        <button type="submit" class="post-comment">Respond</button>
+                    </form>
+                {% endif %}
+                {% if post.comments.amount > 0 %}
+                    {% for comment in post.comments.responses %}
+                        <div class="comment">
+                            <div class="comment-user-info">
+                                <div style="background-image: url('data:image/jpeg;base64,{{ comment.author.picture }}')" class="user-picture">
+                                    {% if not comment.author.picture %}
+                                        <img src="{% static 'blog/images/user-profile-picture.png' %}" alt="User picture" class="not-user-picture">
+                                    {% endif %}
+                                </div>
+                                <div class="comment-user">
+                                    <a href="{% url 'blog:profile' username=comment.author.username %}">{{ comment.author.username }}</a>
+                                    <span>{{ comment.created_at }}</span>
+                                </div>
+                            </div>
+                            <p>{{ comment.content }}</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <span>No comments yet</span>
+                {% endif %}
+            </div>
+        </main>
+    {% endblock %}
+</body>
+</html>

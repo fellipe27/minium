@@ -1,0 +1,72 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block styles %}<link rel="stylesheet" href="{% static 'blog/css/profile_page.css' %}">{% endblock %}
+    <title>{% block title %}{{ profile_owner.data.username }} on Minium{% endblock %}</title>
+</head>
+<body>
+    {% block content %}
+        <main>
+            <div class="posts">
+                <h1>{{ profile_owner.data.username }} post's</h1>
+                <div class="posts-container">
+                    {% for post in posts %}
+                        <a href="{% url 'blog:view_post' username=post.author.username post_id=post.id %}" class="post">
+                            <div class="post-data">
+                                <h2 title="{{ post.title }}">{{ post.title }}</h2>
+                                <p>{{ post.story }}</p>
+                                <div class="post-info">
+                                    <span>{{ post.created_at }}</span>
+                                    <div class="post-claps">
+                                        <img src="{% static 'blog/images/claps.svg' %}" alt="Claps image">
+                                        <span>{{ post.claps.amount }}</span>
+                                    </div>
+                                    <div class="post-comments">
+                                        <img src="{% static 'blog/images/comment.svg' %}" alt="Comment image">
+                                        <span>{{ post.comments.amount }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="background-image: url('data:image/jpeg;base64,{{ post.picture }}')" class="post-picture"></div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="user-info">
+                <div style="background-image: url('data:image/jpeg;base64,{{ profile_owner.data.picture }}')" class="user-picture">
+                    {% if not profile_owner.data.picture %}
+                        <img src="{% static 'blog/images/user-profile-picture.png' %}" alt="User picture" class="not-user-picture">
+                    {% endif %}
+                </div>
+                <span>{{ profile_owner.data.username }}</span>
+                <p>
+                    {% if profile_owner.data.bio %}
+                        "{{ profile_owner.data.bio }}"
+                    {% else %}
+                        Without any bio yet.
+                    {% endif %}
+                </p>
+                {% if profile_owner.data.username == request.user.username %}
+                    <a href="{% url 'blog:update_user' username=user.username %}" class="edit-profile">Edit profile</a>
+                    <a href="{% url 'accounts:logout' %}" class="sign-out">Sign out</a>
+                {% else %}
+                    <form method="POST" class="follow-form">
+                        {% csrf_token %}
+                        {% if request.user.id != profile_owner.data.id %}
+                            <button type="submit" class="follow-button {% if profile_owner.is_followed %}unfollow{% else %}follow{% endif %}">
+                                {% if profile_owner.is_followed %}
+                                    Unfollow
+                                {% else %}
+                                    Follow
+                                {% endif %}
+                            </button>
+                        {% endif %}
+                    </form>
+                {% endif %}
+            </div>
+        </main>
+    {% endblock %}
+</body>
+</html>

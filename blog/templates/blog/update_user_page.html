@@ -1,0 +1,37 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block styles %}<link rel="stylesheet" href="{% static 'blog/css/update_user_page.css' %}">{% endblock %}
+    <title>{% block title %}{{ user.username }} - Minium{% endblock %}</title>
+</head>
+<body>
+    {% block content %}
+        <main>
+            <h1>Profile information</h1>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label id="preview" for="image" title="Change user profile picture" class="user-picture-file">
+                    {% if not user.picture %}
+                        <img id="user-profile-picture" src="{% static 'blog/images/user-profile-picture.png' %}" alt="image">
+                    {% else %}
+                        <div id="previous-picture" style="background-image: url('data:image/jpeg;base64,{{ user.picture }}')" class="profile-picture"></div>
+                    {% endif %}
+                </label>
+                <div class="edit-picture">
+                    <img src="{% static 'blog/images/pencil.svg' %}" alt="Edit picture">
+                </div>
+                <input type="file" id="image" name="image" accept="image/*" class="profile-picture-input">
+                <label for="bio">Short bio</label>
+                <textarea id="bio" name="bio" maxlength="160" placeholder="..." class="bio-update">{% if user.bio %}{{ user.bio }}{% endif %}</textarea>
+                <div class="buttons">
+                    <a href="{% url 'blog:profile' username=user.username %}" class="cancel">Cancel</a>
+                    <button type="submit" id="update-button" class="save">Save</button>
+                </div>
+            </form>
+        </main>
+        <script src="{% static 'blog/js/update_user_page.js' %}"></script>
+    {% endblock %}
+</body>
+</html>

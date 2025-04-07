@@ -1,0 +1,35 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'accounts/css/login_page.css' %}">
+    <link rel="icon" href="{% static 'accounts/images/favicon.ico' %}">
+    <title>Minium - Login</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome back.</h1>
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </header>
+    <main>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="input-container">
+                <label for="username">Your username</label>
+                <input type="text" name="username" id="username" placeholder="Username">
+            </div>
+            <div class="input-container">
+                <label for="password">Your password</label>
+                <input type="password" name="password" id="password" placeholder="Password" autocomplete="new-password">
+            </div>
+            <button type="submit" id="login-button" class="submit-button">Sign in</button>
+        </form>
+    </main>
+    <footer>
+        <span>No account? <a href="{% url 'accounts:register' %}">Create one</a></span>
+    </footer>
+    <script src="{% static 'accounts/js/login_page.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'blog/css/base.css' %}">
+    <link rel="icon" href="{% static 'blog/images/favicon.ico' %}">
+    {% block styles %}{% endblock %}
+    <title>{% block title %}Minium{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>
+            <a href="{% url 'blog:home' %}">Minium</a>
+        </h1>
+        <form method="GET" action="{% url 'blog:search_posts' %}">
+            <label for="search">
+                <img src="{% static 'blog/images/magnifying-glass.png' %}" alt="Search" class="search-icon">
+            </label>
+            <input type="text" name="q" id="search" placeholder="Search">
+        </form>
+        <div>
+            <a href="{% url 'blog:new_story' %}" class="new-story">
+                <img src="{% static 'blog/images/edit-note.png' %}" alt="Edit note">
+                <span>Write</span>
+            </a>
+            <a href="{% url 'blog:profile' username=request.user.username %}" class="profile-picture">
+                {% if not user.picture %}
+                    <img src="{% static 'blog/images/user-profile-picture.png' %}" alt="User picture" class="not-user-picture">
+                {% else %}
+                    <div style="background-image: url('data:image/jpeg;base64,{{ user.picture }}')" class="profile-picture"></div>
+                {% endif %}
+            </a>
+        </div>
+    </header>
+    {% block content %}{% endblock %}
+</body>
+</html>
