@@ -10,7 +10,7 @@
     {% block content %}
         <main>
             <div class="posts">
-                <h1>{{ profile_owner.data.username }} post's</h1>
+                <h1>{{ profile_owner.data.username }}'s posts</h1>
                 <div class="posts-container">
                     {% for post in posts %}
                         <a href="{% url 'blog:view_post' username=post.author.username post_id=post.id %}" class="post">

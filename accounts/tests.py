@@ -5,8 +5,8 @@ from bs4 import BeautifulSoup
 
 class UserLoginTests(TestCase):
     def setUp(self):
-        user = User.objects.create_user(username='user', email='email@email.com', password='password')
-        user.save()
+        self.user = User.objects.create_user(username='user', email='email@email.com', password='password')
+        self.user.save()
 
     def test_authenticated_user_redirection(self):
         user_login = self.client.login(username='user', password='password')
