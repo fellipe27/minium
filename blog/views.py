@@ -37,6 +37,9 @@ def home_page(request):
     })
 
 def search_page(request, prefix):
+    if not request.user.is_authenticated:
+        return redirect('landing:landing')
+
     query = request.GET.get('q')
     results = {
         'posts': [
@@ -68,6 +71,9 @@ def search_page(request, prefix):
     })
 
 def new_story_page(request):
+    if not request.user.is_authenticated:
+        return redirect('landing:landing')
+
     if request.method == 'POST':
         title = request.POST['title']
         story = request.POST['story']
@@ -94,6 +100,9 @@ def new_story_page(request):
     })
 
 def view_post_page(request, username, post_id):
+    if not request.user.is_authenticated:
+        return redirect('landing:landing')
+
     post = get_object_or_404(Post, id=post_id, author__username=username)
 
     if request.method == 'POST':
@@ -121,6 +130,9 @@ def view_post_page(request, username, post_id):
     )
 
 def profile_page(request, username):
+    if not request.user.is_authenticated:
+        return redirect('landing:landing')
+
     try:
         user = User.objects.get(username=username)
         user_posts = Post.objects.filter(author=user)
@@ -151,6 +163,9 @@ def profile_page(request, username):
     )
 
 def update_user_page(request, username):
+    if not request.user.is_authenticated:
+        return redirect('landing:landing')
+
     if request.user.username != username:
         return redirect('blog:profile', username=username)
 
@@ -173,6 +188,9 @@ def update_user_page(request, username):
     return render(request, 'blog/update_user_page.html', { 'user': convert_user(user) })
 
 def update_post_page(request, username, post_id):
+    if not request.user.is_authenticated:
+        return redirect('landing:landing')
+
     if request.user.username != username:
         return redirect(reverse(
             'blog:view_post', kwargs={ 'username': username, 'post_id': post_id }
